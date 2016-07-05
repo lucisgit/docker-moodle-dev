@@ -15,7 +15,14 @@ using [offical image](https://hub.docker.com/_/postgres/).
 
 ## Installation
 
-Building image locally:
+Using automated builds of the image from Dockerhub is preferable method of
+installation.
+
+```bash
+docker pull lucisgit/docker-apache-php-moodle-dev:latest
+```
+
+Alternatively, you may build image locally:
 
 ```bash
 $ git clone https://github.com/lucisgit/docker-apache-php-moodle-dev.git
@@ -82,4 +89,4 @@ your settings.
 
 ## Credits
 
-* Ed Boraas for minimalistic [apache image](https://hub.docker.com/r/eboraas/apache/) used as base here.
+* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base in this .
