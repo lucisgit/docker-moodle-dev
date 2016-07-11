@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
   php5-intl \
   php5-curl \
   php5-gd \
+  php5-xsl \
   php5-mysql \
   php5-pgsql \
   && apt-get clean \
