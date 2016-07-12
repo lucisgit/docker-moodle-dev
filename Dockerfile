@@ -35,11 +35,20 @@ RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-moodle 001-moodle-ssl
 RUN mkdir /srv/moodledata
 RUN chown -R www-data:www-data /srv/moodledata;
 
-EXPOSE 80
-EXPOSE 443
+# Install supervisord and configure it.
+RUN apt-get update && apt-get install -y \
+  supervisor \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p /var/log/supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Use running approach from official apache docker image, the script does
 # necessary tasks before starting apache service.
 COPY httpd-foreground /usr/local/bin/
 RUN chmod 755 /usr/local/bin/httpd-foreground
-CMD ["httpd-foreground"]
+
+EXPOSE 80
+EXPOSE 443
+
+CMD ["/usr/bin/supervisord", "-n"]
