@@ -3,9 +3,10 @@ docker-apache-php-moodle-dev
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
 development.  This simple frontend image provides Apache with PHP libraries
-required for Moodle. The actual Moodle code needs to be mounted as host
-directory data volume. This approach allows developer working with the code
-locally, but serving content via Docker container.
+required for Moodle as well as clamav service (in clamav tagged image). The
+actual Moodle code needs to be mounted as host directory data volume. This
+approach allows developer working with the code locally, but serving
+content via Docker container.
 
 ## Database
 
@@ -20,6 +21,11 @@ installation.
 
 ```bash
 docker pull lucisgit/docker-apache-php-moodle-dev:latest
+```
+
+For installing version containing clamav service:
+```bash
+docker pull lucisgit/docker-apache-php-moodle-dev:clamav
 ```
 
 Alternatively, you may build image locally:
@@ -82,6 +88,19 @@ docker run --name dev-moodle-fe -p 443:443 -v /home/user/git/moodle:/var/www/moo
 
 Your config.php should now use `$CFG->wwwroot   = 'https://localhost';`.
 
+## Clamav
+
+The clamav tagged image (clamav branch in repo) provides clamav service running in the container. For running
+virus scanning in command-line mode, use `/usr/bin/clamdscan` binary. For
+running scan using unix socket
+([MDL-50888](https://tracker.moodle.org/browse/MDL-50888)) use
+`/var/run/clamav/clamd.ctl` socket path. Notice, that `clamav` user is in
+`www-data` group, so no further permission changes needed for "unix socket"
+mode use.
+
+Freshclam process is updating virus databases automatically in the regular
+intervals.
+
 ## Acessing Moodle container
 
 Just enter http://localhost or https://localhost in your browser depending on
@@ -89,4 +108,5 @@ your settings.
 
 ## Credits
 
-* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base in this .
+* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base here.
+* dinkel for [docker-clamavd](https://github.com/dinkel/docker-clamavd)image some ideas of which has been used in clamav tagged image.
