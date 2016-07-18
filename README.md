@@ -3,9 +3,9 @@ docker-apache-php-moodle-dev
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
 development.  This simple frontend image provides Apache with PHP libraries
-required for Moodle. The actual Moodle code needs to be mounted as host
-directory data volume. This approach allows developer working with the code
-locally, but serving content via Docker container.
+required for Moodle as well as clamav service. The actual Moodle code needs
+to be mounted as host directory data volume. This approach allows developer
+working with the code locally, but serving content via Docker container.
 
 ## Database
 
@@ -19,7 +19,7 @@ Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
 ```bash
-docker pull lucisgit/docker-apache-php-moodle-dev:latest
+docker pull lucisgit/docker-apache-php-moodle-dev:clamav
 ```
 
 Alternatively, you may build image locally:
@@ -27,6 +27,7 @@ Alternatively, you may build image locally:
 ```bash
 $ git clone https://github.com/lucisgit/docker-apache-php-moodle-dev.git
 $ cd docker-apache-php-moodle-dev
+$ git checkout clamav
 $ docker build --rm -t lucisgit/docker-apache-php-moodle-dev .
 ```
 
@@ -81,6 +82,19 @@ docker run --name dev-moodle-fe -p 443:443 -v /home/user/git/moodle:/var/www/moo
 > **Note:** To expose both ports 80 and 443 and map them to same ports or the host, just use `-P` paramenter instead of specifying port mapping. 
 
 Your config.php should now use `$CFG->wwwroot   = 'https://localhost';`.
+
+## Clamav
+
+The image provides clamav service running in the container. For running
+virus scanning in command-line mode, use `/usr/bin/clamdscan` binary. For
+running scan using unix socket
+([MDL-50888](https://tracker.moodle.org/browse/MDL-50888)) use
+`/var/run/clamav/clamd.ctl` socket path. Notice, that `clamav` user is in
+`www-data` group, so no further permission changes needed for "unix socket"
+mode use.
+
+Freshclam process is updating virus databases automatically in the regular
+intervals.
 
 ## Acessing Moodle container
 
