@@ -64,11 +64,6 @@ RUN freshclam
 RUN adduser www-data clamav && \
   adduser clamav www-data
 
-# Use running approach from official apache docker image, the script does
-# necessary tasks before starting apache service.
-COPY httpd-foreground /usr/local/bin/
-RUN chmod 755 /usr/local/bin/httpd-foreground
-
 EXPOSE 80
 EXPOSE 443
 
