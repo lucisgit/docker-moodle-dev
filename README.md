@@ -3,9 +3,10 @@ docker-apache-php-moodle-dev
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
 development.  This simple frontend image provides Apache with PHP libraries
-required for Moodle as well as clamav service. The actual Moodle code needs
-to be mounted as host directory data volume. This approach allows developer
-working with the code locally, but serving content via Docker container.
+required for Moodle as well as clamav service (in clamav tagged image). The
+actual Moodle code needs to be mounted as host directory data volume. This
+approach allows developer working with the code locally, but serving
+content via Docker container.
 
 ## Database
 
@@ -19,6 +20,11 @@ Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
 ```bash
+docker pull lucisgit/docker-apache-php-moodle-dev:latest
+```
+
+For installing version containing clamav service:
+```bash
 docker pull lucisgit/docker-apache-php-moodle-dev:clamav
 ```
 
@@ -27,7 +33,6 @@ Alternatively, you may build image locally:
 ```bash
 $ git clone https://github.com/lucisgit/docker-apache-php-moodle-dev.git
 $ cd docker-apache-php-moodle-dev
-$ git checkout clamav
 $ docker build --rm -t lucisgit/docker-apache-php-moodle-dev .
 ```
 
@@ -85,7 +90,7 @@ Your config.php should now use `$CFG->wwwroot   = 'https://localhost';`.
 
 ## Clamav
 
-The image provides clamav service running in the container. For running
+The clamav tagged image (clamav branch in repo) provides clamav service running in the container. For running
 virus scanning in command-line mode, use `/usr/bin/clamdscan` binary. For
 running scan using unix socket
 ([MDL-50888](https://tracker.moodle.org/browse/MDL-50888)) use
@@ -103,4 +108,5 @@ your settings.
 
 ## Credits
 
-* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base in this .
+* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base here.
+* dinkel for [docker-clamavd](https://github.com/dinkel/docker-clamavd)image some ideas of which has been used in clamav tagged image.
