@@ -3,10 +3,9 @@ docker-apache-php-moodle-dev
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
 development.  This simple frontend image provides Apache with PHP libraries
-required for Moodle as well as clamav service (in clamav tagged image). The
-actual Moodle code needs to be mounted as host directory data volume. This
-approach allows developer working with the code locally, but serving
-content via Docker container.
+required for Moodle as well as clamav service. The actual Moodle code needs to
+be mounted as host directory data volume. This approach allows developer
+working with the code locally, but serving content via Docker container.
 
 ## Database
 
@@ -21,11 +20,6 @@ installation.
 
 ```bash
 docker pull lucisgit/docker-apache-php-moodle-dev:latest
-```
-
-For installing version containing clamav service:
-```bash
-docker pull lucisgit/docker-apache-php-moodle-dev:clamav
 ```
 
 Alternatively, you may build image locally:
@@ -84,22 +78,32 @@ config.php accordingly:
 ```bash
 docker run --name dev-moodle-fe -p 443:443 -v /home/user/git/moodle:/var/www/moodle -d lucisgit/docker-apache-php-moodle-dev
 ```
-> **Note:** To expose both ports 80 and 443 and map them to same ports or the host, just use `-P` paramenter instead of specifying port mapping. 
+> **Note:** To expose both ports 80 and 443 and map them to same ports or the host, just use `-P` paramenter instead of specifying port mapping.
 
-Your config.php should now use `$CFG->wwwroot   = 'https://localhost';`.
+Your config.php should now use `$CFG->wwwroot = 'https://localhost';`.
 
 ## Clamav
 
-The clamav tagged image (clamav branch in repo) provides clamav service running in the container. For running
-virus scanning in command-line mode, use `/usr/bin/clamdscan` binary. For
-running scan using unix socket
+The image provides Clamav service running in the container. Bu default it
+starts freshclam daemon that is updating virus databases automatically in the regular
+intervals and clamd daemon itself. You may disable Clamav service entirely by
+passing environment variable `DISABLE_CLAMAV=true`, e.g.
+
+```bash
+docker run --name dev-moodle-fe -p 80:80 -e DISABLE_CLAMAV=true -v /home/user/git/moodle:/var/www/moodle -v moodledatavolume:/srv/moodledata -d lucisgit/docker-apache-php-moodle-dev
+```
+There is an alternative option to disable Clamd only (but keep freshclam
+running) by using `DISABLE_CLAMD=true` environment variable respectively. This
+is usful for limited memory systems when you do not want to start clamd and use
+`/usr/bin/clamscan` for scanning instead.
+
+To initate virus scanning in command-line mode, use `/usr/bin/clamdscan`
+binary or `/usr/bin/clamscan` if clamd is disabled in your setup. For running
+scan using unix socket
 ([MDL-50888](https://tracker.moodle.org/browse/MDL-50888)) use
 `/var/run/clamav/clamd.ctl` socket path. Notice, that `clamav` user is in
 `www-data` group, so no further permission changes needed for "unix socket"
 mode use.
-
-Freshclam process is updating virus databases automatically in the regular
-intervals.
 
 ## Acessing Moodle container
 

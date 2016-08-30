@@ -47,17 +47,9 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Configure clamav and freshclam.
-RUN mkdir /var/run/clamav && \
-  chown clamav:clamav /var/run/clamav && \
-  chmod 750 /var/run/clamav
-
-RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf
-RUN sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
-
-# Run virus database update. This will fetch antivirus base files, clamd
-# will not start without them.
-RUN freshclam
+# Deploy clamav and freshclam init script.
+COPY clamav-init /usr/local/bin/
+RUN chmod 755 /usr/local/bin/clamav-init
 
 # Add www-data to clamav group to permit using it, also add clamav user to
 # www-data group for filesystem access.
