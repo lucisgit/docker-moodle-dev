@@ -4,10 +4,8 @@ docker-moodle-dev
 This repo contains a set of images for creating web frontend image for Moodle
 development:
 
-* docker-moodle-apache-dev This frontend image provides Apache with PHP libraries
-required for Moodle as well as clamav service. 
-* docker-moodle-cron-dev This cron image provides PHP libraries required for Moodle
-  and corresponding cronjob according to Moodle requirements.
+* [docker-moodle-apache-dev](https://github.com/lucisgit/docker-moodle-dev/tree/master/apache) This frontend image provides Apache with PHP libraries required for Moodle as well as clamav service. 
+* [docker-moodle-cron-dev](https://github.com/lucisgit/docker-moodle-dev/tree/master/cron) This cron image provides PHP libraries required for Moodle and corresponding cronjob according to Moodle requirements.
 
 The actual Moodle code needs to be mounted as host directory data volume. This
 approach allows developer working with the code locally, but serving content
