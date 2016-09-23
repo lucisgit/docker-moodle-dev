@@ -1,4 +1,4 @@
-docker-apache-php-moodle-dev
+docker-moodle-apache-dev
 =============
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
@@ -19,15 +19,15 @@ Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
 ```bash
-docker pull lucisgit/docker-apache-php-moodle-dev:latest
+docker pull lucisgit/docker-moodle-apache-dev:latest
 ```
 
 Alternatively, you may build image locally:
 
 ```bash
-$ git clone https://github.com/lucisgit/docker-apache-php-moodle-dev.git
-$ cd docker-apache-php-moodle-dev
-$ docker build --rm -t lucisgit/docker-apache-php-moodle-dev .
+$ git clone https://github.com/lucisgit/docker-moodle-dev.git
+$ cd docker-moodle-dev/apache/
+$ docker build --rm -t lucisgit/docker-moodle-apache-dev .
 ```
 
 ## Using contrainer instance
@@ -37,7 +37,7 @@ your local Moodle directory (`/home/user/git/moodle` in example below) into the
 container at `/var/www/moodle`:
 
 ```bash
-docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -d lucisgit/docker-apache-php-moodle-dev
+docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -d lucisgit/docker-moodle-apache-dev
 ```
 
 The above command will start the container with mounted host directory
@@ -59,14 +59,14 @@ it will not be destroyed on container re-creation. In order to do that, wou may 
 directory as data volume mounted at `/srv/moodledata` in the container:
 
 ```bash
-docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -v /home/user/moodledata:/srv/moodledata -d lucisgit/docker-apache-php-moodle-dev
+docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -v /home/user/moodledata:/srv/moodledata -d lucisgit/docker-moodle-apache-dev
 ```
 
 Alternatively, create [Docker volume](https://docs.docker.com/engine/tutorials/dockervolumes/) and use it in the container instance:
 
 ```bash
 docker volume create --name moodledatavolume
-docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -v moodledatavolume:/srv/moodledata -d lucisgit/docker-apache-php-moodle-dev
+docker run --name dev-moodle-fe -p 80:80 -v /home/user/git/moodle:/var/www/moodle -v moodledatavolume:/srv/moodledata -d lucisgit/docker-moodle-apache-dev
 ```
 
 ## Using SSL
@@ -76,7 +76,7 @@ order to use it, you need to expose port 443 to the host and amend Moodle
 config.php accordingly:
 
 ```bash
-docker run --name dev-moodle-fe -p 443:443 -v /home/user/git/moodle:/var/www/moodle -d lucisgit/docker-apache-php-moodle-dev
+docker run --name dev-moodle-fe -p 443:443 -v /home/user/git/moodle:/var/www/moodle -d lucisgit/docker-moodle-apache-dev
 ```
 > **Note:** To expose both ports 80 and 443 and map them to same ports or the host, just use `-P` paramenter instead of specifying port mapping.
 
@@ -90,7 +90,7 @@ intervals and clamd daemon itself. You may disable Clamav service entirely by
 passing environment variable `DISABLE_CLAMAV=true`, e.g.
 
 ```bash
-docker run --name dev-moodle-fe -p 80:80 -e DISABLE_CLAMAV=true -v /home/user/git/moodle:/var/www/moodle -v moodledatavolume:/srv/moodledata -d lucisgit/docker-apache-php-moodle-dev
+docker run --name dev-moodle-fe -p 80:80 -e DISABLE_CLAMAV=true -v /home/user/git/moodle:/var/www/moodle -v moodledatavolume:/srv/moodledata -d lucisgit/docker-moodle-apache-dev
 ```
 There is an alternative option to disable Clamd only (but keep freshclam
 running) by using `DISABLE_CLAMD=true` environment variable respectively. This
@@ -109,8 +109,3 @@ mode use.
 
 Just enter http://localhost or https://localhost in your browser depending on
 your settings.
-
-## Credits
-
-* Ed Boraas for minimalistic [Docker apache image](https://hub.docker.com/r/eboraas/apache/) used as base here.
-* dinkel for [docker-clamavd](https://github.com/dinkel/docker-clamavd)image some ideas of which has been used in clamav tagged image.
