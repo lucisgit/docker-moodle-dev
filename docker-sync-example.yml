@@ -1,0 +1,11 @@
+options:
+  compose-file-path: './docker-moodle-dev-compose.yml'
+  verbose: true
+syncs:
+  #IMPORTANT: ensure this name is unique and does not match your other application container name
+  moodlecode:
+    src: '/Users/username/git/moodle'
+    dest: '/var/www/moodle'
+    sync_args: '--delete' # Delete file on container if it is deleted on host.
+    sync_host_ip: 'localhost'
+    sync_host_port: 10872
