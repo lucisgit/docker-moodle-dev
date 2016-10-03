@@ -2,16 +2,20 @@ docker-moodle-apache-dev
 =============
 
 This repo contains a Dockerfile for creating web frontend image for Moodle
-development.  This simple frontend image provides Apache with PHP libraries
+development environment. This frontend image provides Apache with PHP libraries
 required for Moodle as well as clamav service. The actual Moodle code needs to
 be mounted as host directory data volume. This approach allows developer
 working with the code locally, but serving content via Docker container.
+
+See the main repo
+[README.md](https://github.com/lucisgit/docker-moodle-dev) for details how
+to use Compose to simplify dev environment setup and containers running.
 
 ## Database
 
 It is assumed that you have container for the database within the same Docker
 bridge network, so that web frontend can access it. For PostgreSQL I suggest
-using [offical image](https://hub.docker.com/_/postgres/).
+using [official image](https://hub.docker.com/_/postgres/).
 
 ## Installation
 
