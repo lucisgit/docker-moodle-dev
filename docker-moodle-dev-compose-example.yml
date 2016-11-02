@@ -9,7 +9,6 @@ services:
         volumes:
           - moodledata:/srv/moodledata
           - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.
-          - ./moodle.ini:/etc/php5/apache2/conf.d/30-moodle.ini # Moodle specific php settings.
         depends_on:
           - postgres_9.4
 #        environment:

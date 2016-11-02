@@ -29,6 +29,7 @@ RUN /usr/sbin/a2dismod 'mpm_*' && /usr/sbin/a2enmod mpm_prefork
 ADD 000-moodle.conf /etc/apache2/sites-available/
 ADD 001-moodle-ssl.conf /etc/apache2/sites-available/
 RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-moodle 001-moodle-ssl
+ADD 30-moodle.ini /etc/php5/apache2/conf.d/
 
 # Moodle data directory. Consider using data volume mounted at this path
 # for data persistency.
