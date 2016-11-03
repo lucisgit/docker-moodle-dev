@@ -1,0 +1,11 @@
+# Overriding docker-compose.yml.
+version: '2'
+services:
+    moodle:
+        build: ./apache 
+        volumes:
+          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.
+    cron:
+        build: ./cron
+        volumes:
+          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.

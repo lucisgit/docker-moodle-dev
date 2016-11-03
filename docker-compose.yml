@@ -1,14 +1,17 @@
+# Docker Compose file for moodle dev environment.
+# Use docker-compose.override.yml to override setting below.
 version: '2'
 services:
-    apache:
-        build: ./apache 
+    moodle:
+        image: lucisgit/docker-moodle-apache-dev:latest
         links:
           - postgres_9.4:db-postgres
-        ports:
-          - "127.0.0.1:8080:80"
+#        ports:
+#          - "80:80"
+#          - "443:443"
         volumes:
           - moodledata:/srv/moodledata
-          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.
+#          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.see docker-compose.override-example for details.
         depends_on:
           - postgres_9.4
 #        environment:
@@ -17,13 +20,15 @@ services:
         image: postgres:9.4
         volumes:
           - pgdata:/var/lib/postgresql/data
+        ports:
+          - "5432:5432"
     cron:
-        build: ./cron
+        image: lucisgit/docker-moodle-cron-dev:latest
         links:
           - postgres_9.4:db-postgres
         volumes:
           - moodledata:/srv/moodledata
-          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.
+#          - /home/username/git/moodle:/var/www/moodle # Mounting Moodle code from the host location.
         depends_on:
           - postgres_9.4
 volumes:
