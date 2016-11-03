@@ -1,4 +1,4 @@
-docker-moodle-apache-cron
+docker-moodle-cron-dev
 =============
 
 This repo contains a Dockerfile for creating backend image running cron
@@ -15,7 +15,7 @@ Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
 ```bash
-docker pull lucisgit/docker-moodle-apache-cron:latest
+docker pull lucisgit/docker-moodle-cron-dev:latest
 ```
 
 Alternatively, you may build image locally:
@@ -23,7 +23,7 @@ Alternatively, you may build image locally:
 ```bash
 $ git clone https://github.com/lucisgit/docker-moodle-dev.git
 $ cd docker-moodle-dev/cron/
-$ docker build --rm -t lucisgit/docker-moodle-apache-cron .
+$ docker build --rm -t lucisgit/docker-moodle-cron-dev .
 ```
 
 ## Using contrainer instance
