@@ -37,19 +37,22 @@ and containers running.
 ## Docker Compose
 
 The enclosed compose file example is for running dev environment from the
-current directory. It is assumed you have a clone of this repo, as compose file
-is building images from subdirs, rahter than using ones from Docker hub. Make a
-copy of file, name it `docker-moodle-dev-compose.yml` (gitignore is aware of
-this file) and adjust it according to your needs; at the very least, change the
-code content path to your location (`/home/username/git/moodle` is used in
-example). Also, two data volumes are required: `moodledata` (for Moodle data)
-and `pgdata` (for Postgresql data) to make containers ephemeral. You need to
-pre-create them before using compose file or asjust the file accordingly if you
-are not using volumes.
+current directory. `docker-compose.yml` is providing the base settings to
+run dev environment and using Docker hub images. You need to override it,
+using `docker-compose.override.yml` file and adjust to your needs; at the
+very least, change the Moodle code path to your location
+(`/home/username/git/moodle` is used in example). You can also instruct
+compose to build images from subdirs rather using Docker hub images. You
+may use `docker-compose.override-example.yml` to start with, just copy it
+can name `docker-compose.override.yml` (gitignore is aware of this file).
+Also, two data volumes are required: `moodledata` (for Moodle data) and
+`pgdata` (for Postgresql data) to make containers ephemeral. You need to
+pre-create them before using compose file or adjust the file accordingly if
+you are not using volumes.
 
 To start environment using Docker compose in daemon mode use:
 ```bash
-$ docker-compose -f docker-moodle-dev-compose.yml up -d
+$ docker-compose up -d
 Creating network "dockermoodledev_default" with the default driver
 Creating dockermoodledev_postgres_9.4_1
 Creating dockermoodledev_moodle_1
@@ -57,7 +60,7 @@ Creating dockermoodledev_moodle_1
 
 You may check the status of containers using ps command:
 ```bash
-$ docker-compose -f docker-moodle-dev-compose.yml ps
+$ docker-compose ps
              Name                           Command               State              Ports             
 ------------------------------------------------------------------------------------------------------
 dockermoodledev_moodle_1         /usr/bin/supervisord -n          Up      0.0.0.0:443->443/tcp, 80/tcp 
