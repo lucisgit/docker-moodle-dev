@@ -19,8 +19,20 @@ RUN apt-get update && apt-get install -y \
   php5-xsl \
   php5-mysql \
   php5-pgsql \
+  libreoffice \
+  ghostscript \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+# Add backports and install unoconv
+RUN awk '$1 ~ "^deb" { $3 = $3 "-backports"; print; exit }' /etc/apt/sources.list > /etc/apt/sources.list.d/backports.list
+RUN apt-get update && apt-get install -y -t jessie-backports unoconv
+
+# Move www-data home dir to the different location for security (it needs
+# to be writable for unoconv to work).
+RUN mkdir /home/www-data
+RUN chown www-data:www-data /home/www-data
+RUN usermod -d /home/www-data www-data
 
 # Make sure only mpm_prefork is enabled.
 RUN /usr/sbin/a2dismod 'mpm_*' && /usr/sbin/a2enmod mpm_prefork
