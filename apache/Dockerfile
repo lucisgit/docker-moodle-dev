@@ -1,35 +1,42 @@
 # Dockerfile for creating web frontend container for Moodle development.
 # See README.md for details.
 
-# Using eboraas/apache as base image. Clean and minimalistic
+# Using eboraas/debian as base image. Clean and minimalistic
 # image based on debootstrapped version of Debian:stable.
-FROM eboraas/apache
+FROM eboraas/debian:stable
 
 MAINTAINER Ruslan Kabalin <r.kabalin@lancaster.ac.uk>
 
-# Install PHP and modules Moodle needs for functioning
-# (https://docs.moodle.org/31/en/PHP).
+# Install Apache, PHP and modules Moodle needs for functioning
+# (https://docs.moodle.org/33/en/PHP).
 RUN apt-get update && apt-get install -y \
-  php5 \
-  libapache2-mod-php5 \
-  php5-xmlrpc \
-  php5-intl \
-  php5-curl \
-  php5-gd \
-  php5-xsl \
-  php5-mysql \
-  php5-pgsql \
+  apache2 \
+  php7.0 \
+  libapache2-mod-php7.0 \
+  php-xmlrpc \
+  php-intl \
+  php-curl \
+  php-gd \
+  php-xsl \
+  php-mysql \
+  php-pgsql \
+  php-mbstring \
+  php-soap \
+  php-zip \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
-# Make sure only mpm_prefork is enabled.
-RUN /usr/sbin/a2dismod 'mpm_*' && /usr/sbin/a2enmod mpm_prefork
+# Prepare apache env.
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
 
 # Add Apache configuration.
 ADD 000-moodle.conf /etc/apache2/sites-available/
 ADD 001-moodle-ssl.conf /etc/apache2/sites-available/
+RUN /usr/sbin/a2enmod ssl
 RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-moodle 001-moodle-ssl
-ADD 30-moodle.ini /etc/php5/apache2/conf.d/
+ADD 30-moodle.ini /etc/php7/apache2/conf.d/
 
 # Moodle data directory. Consider using data volume mounted at this path
 # for data persistency.
