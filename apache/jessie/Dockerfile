@@ -1,15 +1,16 @@
 # Dockerfile for creating web frontend container for Moodle development.
 # See README.md for details.
 
-# Using eboraas/apache as base image. Clean and minimalistic
-# image based on debootstrapped version of Debian:stable.
-FROM eboraas/apache
+# Using eboraas/debian as base image. Clean and minimalistic
+# image based on debootstrapped version of Debian:jessie.
+FROM eboraas/debian:jessie
 
 MAINTAINER Ruslan Kabalin <r.kabalin@lancaster.ac.uk>
 
 # Install PHP and modules Moodle needs for functioning
 # (https://docs.moodle.org/31/en/PHP).
 RUN apt-get update && apt-get install -y \
+  apache2 \
   php5 \
   libapache2-mod-php5 \
   php5-xmlrpc \
@@ -22,12 +23,18 @@ RUN apt-get update && apt-get install -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+# Prepare apache env.
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+
 # Make sure only mpm_prefork is enabled.
 RUN /usr/sbin/a2dismod 'mpm_*' && /usr/sbin/a2enmod mpm_prefork
 
 # Add Apache configuration.
 ADD 000-moodle.conf /etc/apache2/sites-available/
 ADD 001-moodle-ssl.conf /etc/apache2/sites-available/
+RUN /usr/sbin/a2enmod ssl
 RUN /usr/sbin/a2dissite '*' && /usr/sbin/a2ensite 000-moodle 001-moodle-ssl
 ADD 30-moodle.ini /etc/php5/apache2/conf.d/
 

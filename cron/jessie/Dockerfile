@@ -1,9 +1,9 @@
 # Dockerfile for creating cron container for Moodle.
 # See README.md for details.
 
-# Using eboraas/apache as base image. Clean and minimalistic
-# image based on debootstrapped version of Debian:stable.
-FROM eboraas/apache
+# Using eboraas/debian as base image. Clean and minimalistic
+# image based on debootstrapped version of Debian:jessie.
+FROM eboraas/debian:jessie
 
 MAINTAINER Ruslan Kabalin <r.kabalin@lancaster.ac.uk>
 
@@ -11,7 +11,7 @@ MAINTAINER Ruslan Kabalin <r.kabalin@lancaster.ac.uk>
 # (https://docs.moodle.org/31/en/PHP).
 RUN apt-get update && apt-get install -y \
   cron \
-  php5 \
+  php5-cli \
   php5-xmlrpc \
   php5-intl \
   php5-curl \
