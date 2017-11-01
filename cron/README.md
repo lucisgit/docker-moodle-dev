@@ -1,7 +1,7 @@
 docker-moodle-cron-dev
 =============
 
-This repo contains a Dockerfile for creating backend image running cron
+Dockerfile for creating backend image running cron
 service for Moodle development. The image is a part of Moodle dev
 environment and supposed to be used together with
 [docker-moodle-apache-dev](https://github.com/lucisgit/docker-moodle-dev/tree/master/apache)
@@ -14,15 +14,21 @@ to use Compose to simplify dev environment setup and containers running.
 Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
+Debian stable (also can be requested by 'latest' and no tag):
 ```bash
-docker pull lucisgit/docker-moodle-cron-dev:latest
+docker pull lucisgit/docker-moodle-cron-dev:stable
+```
+
+Debian Jessie:
+```bash
+docker pull lucisgit/docker-moodle-cron-dev:jessie
 ```
 
 Alternatively, you may build image locally:
 
 ```bash
 $ git clone https://github.com/lucisgit/docker-moodle-dev.git
-$ cd docker-moodle-dev/cron/
+$ cd docker-moodle-dev/cron/stable
 $ docker build --rm -t lucisgit/docker-moodle-cron-dev .
 ```
 

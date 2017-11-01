@@ -22,15 +22,21 @@ using [official image](https://hub.docker.com/_/postgres/).
 Using automated builds of the image from Dockerhub is preferable method of
 installation.
 
+Debian stable (also can be requested by 'latest' and no tag):
 ```bash
-docker pull lucisgit/docker-moodle-apache-dev:latest
+docker pull lucisgit/docker-moodle-apache-dev:stable
+```
+
+Debian Jessie:
+```bash
+docker pull lucisgit/docker-moodle-apache-dev:jessie
 ```
 
 Alternatively, you may build image locally:
 
 ```bash
 $ git clone https://github.com/lucisgit/docker-moodle-dev.git
-$ cd docker-moodle-dev/apache/
+$ cd docker-moodle-dev/apache/stable
 $ docker build --rm -t lucisgit/docker-moodle-apache-dev .
 ```
 
