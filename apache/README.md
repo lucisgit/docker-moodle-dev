@@ -32,6 +32,11 @@ Debian Jessie:
 docker pull lucisgit/docker-moodle-apache-dev:jessie
 ```
 
+Debian Jessie with Unoconv package (provides any docs conversion to PDF):
+```bash
+docker pull lucisgit/docker-moodle-cron-dev:jessie-unoconv
+```
+
 Alternatively, you may build image locally:
 
 ```bash
@@ -108,12 +113,10 @@ is usful for limited memory systems when you do not want to start clamd and use
 `/usr/bin/clamscan` for scanning instead.
 
 To initate virus scanning in command-line mode, use `/usr/bin/clamdscan`
-binary or `/usr/bin/clamscan` if clamd is disabled in your setup. For running
-scan using unix socket
-([MDL-50888](https://tracker.moodle.org/browse/MDL-50888)) use
-`/var/run/clamav/clamd.ctl` socket path. Notice, that `clamav` user is in
-`www-data` group, so no further permission changes needed for "unix socket"
-mode use.
+binary or `/usr/bin/clamscan` if clamd is disabled in your setup. For
+running scan using unix socket use `/var/run/clamav/clamd.ctl` socket path.
+Notice, that `clamav` user is in `www-data` group, so no further permission
+changes needed for "unix socket" mode use.
 
 ## Acessing Moodle container
 

@@ -24,6 +24,11 @@ Debian Jessie:
 docker pull lucisgit/docker-moodle-cron-dev:jessie
 ```
 
+Debian Jessie with Unoconv package (provides any docs conversion to PDF):
+```bash
+docker pull lucisgit/docker-moodle-cron-dev:jessie-unoconv
+```
+
 Alternatively, you may build image locally:
 
 ```bash
