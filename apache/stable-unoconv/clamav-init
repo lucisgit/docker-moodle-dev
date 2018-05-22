@@ -1,0 +1,30 @@
+#!/bin/bash
+
+export DISABLE_CLAMAV
+export DISABLE_CLAMD
+DISABLE_CLAMAV=${DISABLE_CLAMAV:-false}
+DISABLE_CLAMD=${DISABLE_CLAMD:-false}
+
+# Check if we need to disable Clamav entirely.
+if [ "$DISABLE_CLAMAV" = true ]; then
+    exit 0
+fi
+
+# Create directories and set permissions
+mkdir -p /var/run/clamav && chown clamav:clamav /var/run/clamav
+mkdir -p /var/lib/clamav && chown -R clamav:clamav /var/lib/clamav
+
+# Prepare configuration
+sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/clamd.conf
+sed -i 's/^Foreground .*$/Foreground true/g' /etc/clamav/freshclam.conf
+
+# Update virus databases
+/usr/bin/freshclam --quiet --config-file=/etc/clamav/freshclam.conf
+
+# Start freshclam
+supervisorctl start freshclam
+
+# Only start clamd if it is not disabled.
+if [ "$DISABLE_CLAMD" = false ]; then
+    supervisorctl start clamd
+fi

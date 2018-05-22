@@ -27,6 +27,11 @@ Debian stable (also can be requested by 'latest' and no tag):
 docker pull lucisgit/docker-moodle-apache-dev:stable
 ```
 
+Debian stable with Unoconv package (provides any docs conversion to PDF):
+```bash
+docker pull lucisgit/docker-moodle-cron-dev:stable-unoconv
+```
+
 Debian Jessie:
 ```bash
 docker pull lucisgit/docker-moodle-apache-dev:jessie
