@@ -29,7 +29,7 @@ docker pull lucisgit/docker-moodle-apache-dev:stable
 
 Debian stable with Unoconv package (provides any docs conversion to PDF):
 ```bash
-docker pull lucisgit/docker-moodle-cron-dev:stable-unoconv
+docker pull lucisgit/docker-moodle-apache-dev:stable-unoconv
 ```
 
 Debian Jessie:
@@ -39,7 +39,7 @@ docker pull lucisgit/docker-moodle-apache-dev:jessie
 
 Debian Jessie with Unoconv package (provides any docs conversion to PDF):
 ```bash
-docker pull lucisgit/docker-moodle-cron-dev:jessie-unoconv
+docker pull lucisgit/docker-moodle-apache-dev:jessie-unoconv
 ```
 
 Alternatively, you may build image locally:
